@@ -6,6 +6,12 @@
   --font-family-mono: "Geist Mono", ui-monospace, monospace;
   --font-family-serif: "Instrument Serif", Georgia, serif;
 
+  --animate-blink: blink 1s step-end infinite;
+  --animate-shimmer: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Dark mode (default) */
+:root {
   --color-bg: oklch(0.14 0 0);
   --color-bg-elev: oklch(0.18 0 0);
   --color-border: oklch(0.24 0 0);
@@ -14,26 +20,23 @@
   --color-accent: oklch(0.78 0.13 75);
   --color-success: oklch(0.72 0.15 145);
   --color-warning: oklch(0.78 0.15 75);
-  --color-danger: oklch(0.65 0.20 25);
-
-  --animate-blink: blink 1s step-end infinite;
-  --animate-shimmer: shimmer 1.5s ease-in-out infinite;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-:root {
+  --color-danger: oklch(0.65 0.2 25);
   --font-sans: "Geist", system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
   --font-serif: "Instrument Serif", Georgia, serif;
+}
+
+/* Light mode */
+.light {
+  --color-bg: oklch(0.98 0 0);
+  --color-bg-elev: oklch(0.94 0 0);
+  --color-border: oklch(0.88 0 0);
+  --color-muted: oklch(0.5 0 0);
+  --color-fg: oklch(0.12 0 0);
+  --color-accent: oklch(0.6 0.13 75);
+  --color-success: oklch(0.52 0.15 145);
+  --color-warning: oklch(0.58 0.15 75);
+  --color-danger: oklch(0.5 0.2 25);
 }
 
 @keyframes blink {
@@ -56,8 +59,9 @@
 }
 
 body {
-  background-color: oklch(0.14 0 0);
-  color: oklch(0.96 0 0);
+  background-color: var(--color-bg);
+  color: var(--color-fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }

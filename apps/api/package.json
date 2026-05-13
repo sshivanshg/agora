@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx watch --env-file=../../.env src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "biome check .",
@@ -12,6 +12,8 @@
   "dependencies": {
     "@agora/config": "workspace:*",
     "@agora/db": "workspace:^",
+    "@agora/personas": "workspace:*",
+    "@agora/orchestrator": "workspace:*",
     "@hono/node-server": "^2.0.2",
     "@hono/zod-validator": "^0.8.0",
     "better-auth": "^1.6.11",

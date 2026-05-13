@@ -1,0 +1,21 @@
+{
+  "name": "@agora/cli",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "debate": "tsx --env-file=../../.env src/debate.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check ."
+  },
+  "dependencies": {
+    "@agora/db": "workspace:*",
+    "@agora/orchestrator": "workspace:*",
+    "@agora/personas": "workspace:*",
+    "drizzle-orm": "^0.36.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.19",
+    "typescript": "^5.7.3",
+    "tsx": "^4.19.2"
+  }
+}

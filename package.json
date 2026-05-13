@@ -17,7 +17,9 @@
     "db:push": "turbo run db:push --filter=@agora/db",
     "db:seed": "turbo run db:seed --filter=@agora/db",
     "prepare": "husky",
-    "gen:encryption-key": "pnpm --filter=@agora/config gen:encryption-key"
+    "gen:encryption-key": "pnpm --filter=@agora/config gen:encryption-key",
+    "personas:sync": "pnpm --filter @agora/personas sync",
+    "debate": "pnpm --filter @agora/cli debate"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json}": ["biome check --write --no-errors-on-unmatched"]

@@ -1,13 +1,17 @@
 import { z } from "zod";
 
+const bool = z
+  .union([z.boolean(), z.enum(["true", "false", "1", "0", ""])])
+  .transform((v) => v === true || v === "true" || v === "1");
+
 const schema = z.object({
   DATABASE_URL: z.string().url(),
   INSTANCE_ENCRYPTION_KEY: z.string().min(1),
-  SINGLE_USER_MODE: z.coerce.boolean().default(true),
-  ENABLE_AUTH: z.coerce.boolean().default(false),
+  SINGLE_USER_MODE: bool.default("true"),
+  ENABLE_AUTH: bool.default("false"),
   NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
   NEXT_PUBLIC_API_URL: z.string().url().default("http://localhost:4000"),
-  TELEMETRY_ENABLED: z.coerce.boolean().default(false),
+  TELEMETRY_ENABLED: bool.default("false"),
 });
 
 const parsed = schema.safeParse(process.env);

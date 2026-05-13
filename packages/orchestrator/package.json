@@ -10,13 +10,22 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
+    "@agora/ai": "workspace:*",
+    "@agora/db": "workspace:*",
+    "@agora/personas": "workspace:*",
+    "@langchain/core": "^0.3.0",
     "@langchain/langgraph": "^0.2.0",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "ai": "^4.0.0",
+    "drizzle-orm": "^0.36.4",
+    "gray-matter": "^4.0.3",
     "zod": "^3.24.0"
   },
   "devDependencies": {
     "@agora/config": "workspace:*",
     "@agora/types": "workspace:*",
+    "@types/node": "^22.10.0",
     "typescript": "^5.7.3",
-    "vitest": "^2.1.0"
+    "vitest": "^2.1.8"
   }
 }

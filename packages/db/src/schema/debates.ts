@@ -32,6 +32,7 @@ export const debates = pgTable("debates", {
   resolution: text("resolution").notNull(),
   framingNotes: text("framing_notes"),
   format: text("format").default("oxford_lite").notNull(),
+  country: text("country").default("global").notNull(),
   status: text("status").default("pending").notNull(),
   embedding: vector("embedding", 1536),
   createdById: text("created_by_id").references(() => users.id, { onDelete: "set null" }),
@@ -39,6 +40,7 @@ export const debates = pgTable("debates", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   completedAt: timestamp("completed_at", { withTimezone: true }),
+  errorMessage: text("error_message"),
 });
 
 export const debatePersonas = pgTable(
