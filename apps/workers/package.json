@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "inngest-cli@latest dev",
+    "dev": "npx --yes inngest-cli@latest dev",
     "build": "tsc",
     "lint": "biome check .",
     "typecheck": "tsc --noEmit"

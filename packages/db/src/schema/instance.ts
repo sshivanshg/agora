@@ -1,6 +1,6 @@
 import { createId } from "@paralleldrive/cuid2";
 import { boolean, index, jsonb, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { users } from "./auth.js";
+import { users } from "./auth";
 
 export const instanceConfig = pgTable("instance_config", {
   key: text("key").primaryKey(),

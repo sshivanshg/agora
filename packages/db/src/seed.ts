@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
 import { createId } from "@paralleldrive/cuid2";
 import { eq, inArray } from "drizzle-orm";
-import { db } from "./client.js";
-import { debatePersonas, debateTurns, debates, personas } from "./schema/index.js";
+import { db } from "./client";
+import { debatePersonas, debateTurns, debates, personas } from "./schema/index";
 
 function sha256(content: string): string {
   return createHash("sha256").update(content).digest("hex");

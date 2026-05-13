@@ -11,7 +11,7 @@
     "db:push": "drizzle-kit push",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "tsx src/seed.ts"
+    "db:seed": "tsx --env-file=../../.env src/seed.ts"
   },
   "dependencies": {
     "@paralleldrive/cuid2": "^3.3.0",

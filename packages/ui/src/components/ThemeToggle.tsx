@@ -2,7 +2,7 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { Button } from "./Button.js";
+import { Button } from "./Button";
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);

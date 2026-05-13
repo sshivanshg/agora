@@ -1,4 +1,5 @@
-import { cn } from "../lib/utils.js";
+"use client";
+import { cn } from "../lib/utils";
 
 interface PersonaLabelProps {
   name: string;

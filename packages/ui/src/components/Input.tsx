@@ -1,6 +1,7 @@
+"use client";
 import { Eye, EyeOff } from "lucide-react";
 import { type InputHTMLAttributes, useState } from "react";
-import { cn } from "../lib/utils.js";
+import { cn } from "../lib/utils";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   mono?: boolean;

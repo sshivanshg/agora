@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { decryptApiKey, encryptApiKey } from "../crypto.js";
+import { decryptApiKey, encryptApiKey } from "../crypto";
 
 beforeAll(() => {
   // Set a test key: exactly 32 bytes encoded as base64

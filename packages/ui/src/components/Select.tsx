@@ -1,6 +1,7 @@
+"use client";
 import { ChevronDown } from "lucide-react";
 import type { SelectHTMLAttributes } from "react";
-import { cn } from "../lib/utils.js";
+import { cn } from "../lib/utils";
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   options: { value: string; label: string }[];

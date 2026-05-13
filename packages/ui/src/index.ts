@@ -1,16 +1,16 @@
 // Utils
-export { cn } from "./lib/utils.js";
+export { cn } from "./lib/utils";
 
 // Components
-export { Button } from "./components/Button.js";
-export { Input } from "./components/Input.js";
-export { Select } from "./components/Select.js";
-export { PhaseBar } from "./components/PhaseBar.js";
-export { PersonaLabel } from "./components/PersonaLabel.js";
-export { DebateMessage } from "./components/DebateMessage.js";
-export { Resolution } from "./components/Resolution.js";
-export { Card } from "./components/Card.js";
-export { Separator } from "./components/Separator.js";
-export { Skeleton } from "./components/Skeleton.js";
-export { Stepper } from "./components/Stepper.js";
-export { ThemeToggle } from "./components/ThemeToggle.js";
+export { Button } from "./components/Button";
+export { Input } from "./components/Input";
+export { Select } from "./components/Select";
+export { PhaseBar } from "./components/PhaseBar";
+export { PersonaLabel } from "./components/PersonaLabel";
+export { DebateMessage } from "./components/DebateMessage";
+export { Resolution } from "./components/Resolution";
+export { Card } from "./components/Card";
+export { Separator } from "./components/Separator";
+export { Skeleton } from "./components/Skeleton";
+export { Stepper } from "./components/Stepper";
+export { ThemeToggle } from "./components/ThemeToggle";

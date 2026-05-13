@@ -1,3 +1,3 @@
-export * from "./env.js";
-export * from "./crypto.js";
-export * from "./owner.js";
+export * from "./env";
+export * from "./crypto";
+export * from "./owner";

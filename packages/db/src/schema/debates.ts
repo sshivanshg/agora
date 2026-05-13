@@ -9,8 +9,8 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { users } from "./auth.js";
-import { personas } from "./personas.js";
+import { users } from "./auth";
+import { personas } from "./personas";
 
 const vector = (name: string, dimensions: number) =>
   customType<{ data: number[]; driverData: string }>({

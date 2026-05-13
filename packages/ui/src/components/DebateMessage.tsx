@@ -1,6 +1,6 @@
 "use client";
-import { cn } from "../lib/utils.js";
-import { PersonaLabel } from "./PersonaLabel.js";
+import { cn } from "../lib/utils";
+import { PersonaLabel } from "./PersonaLabel";
 
 interface DebateMessageProps {
   personaName: string;
