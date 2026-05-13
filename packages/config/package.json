@@ -1,0 +1,30 @@
+{
+  "name": "@agora/config",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./tsconfig": "./tsconfig.base.json",
+    "./biome": "./biome.json",
+    "./tailwind": "./tailwind.preset.ts",
+    ".": "./src/index.ts",
+    "./env": "./src/env.ts",
+    "./crypto": "./src/crypto.ts",
+    "./owner": "./src/owner.ts"
+  },
+  "scripts": {
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "gen:encryption-key": "tsx src/gen-key.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tailwindcss": "^4.3.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.0"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  }
+}

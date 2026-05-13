@@ -1,0 +1,51 @@
+# Self-Hosting
+
+Self-hosting is the primary deployment target for Agora. This guide covers everything you need to run your own instance.
+
+> **This page is under construction.** Full documentation is coming. For now, follow the [README quickstart](https://github.com/your-org/agora#quickstart).
+
+---
+
+## Prerequisites
+
+- Node.js 20+
+- PostgreSQL 16+ with the [pgvector](https://github.com/pgvector/pgvector) extension
+- At least one AI provider API key (Anthropic, OpenAI, Google, Groq) or a local Ollama instance
+- Docker (recommended for local postgres)
+
+---
+
+## Environment variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `DATABASE_URL` | Yes | PostgreSQL connection string |
+| `INSTANCE_ENCRYPTION_KEY` | Yes | Base64-encoded 32-byte key for AES-256-GCM. Generate with `pnpm gen:encryption-key` |
+| `SINGLE_USER_MODE` | No | Default `true`. Set `false` for multi-user deployments |
+| `ENABLE_AUTH` | No | Default `false`. Set `true` (with `SINGLE_USER_MODE=false`) for auth |
+| `NEXT_PUBLIC_APP_URL` | No | Default `http://localhost:3000` |
+| `NEXT_PUBLIC_API_URL` | No | Default `http://localhost:4000` |
+
+---
+
+## Quick start
+
+```bash
+git clone https://github.com/your-org/agora.git && cd agora
+cp .env.example .env
+pnpm gen:encryption-key   # paste output into .env
+docker compose -f docker/docker-compose.yml up -d
+pnpm install
+pnpm db:push && pnpm db:seed
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) — the setup wizard will guide you through adding your first API key.
+
+---
+
+## Production deployment
+
+Docker image and one-click deploy buttons are coming in a later release. Watch [GitHub releases](https://github.com/your-org/agora/releases) for updates.
+
+**Platforms being targeted:** Vercel (web) + Railway/Fly.io (API), single-server Docker Compose.

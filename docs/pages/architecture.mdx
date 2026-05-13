@@ -1,0 +1,35 @@
+# Architecture
+
+> **This page is under construction.** Full documentation is coming in a later phase.
+
+---
+
+## High-level overview
+
+```
+Browser → Next.js (RSC + SSE) → Hono API → LangGraph Orchestrator → AI Providers
+                                          ↘ Inngest Workers (fact-check, synthesis)
+                         PostgreSQL + pgvector (single DB, no Redis)
+```
+
+## Orchestrator state machine
+
+```
+INIT → FRAMING → OPENING_STATEMENTS → CROSS_EXAMINATION
+     → REBUTTALS → CLOSING → SYNTHESIS → DONE
+```
+
+Each state knows which agent to invoke (Moderator, Debater, Fact-Checker, Synthesizer), what context to pass, and how to advance.
+
+## Persona system
+
+Personas are markdown files in `packages/personas/specs/*.md` with YAML frontmatter. The loader compiles them into agent system prompts at runtime. Adding a persona = adding a `.md` file. No code changes.
+
+## Key design decisions
+
+- **No Redis.** Postgres LISTEN/NOTIFY for any pub-sub needs. One fewer moving part.
+- **BYOK.** API keys encrypted AES-256-GCM, stored per-instance. Never transmitted.
+- **Single-user by default.** No auth overhead for personal deployments.
+- **LangGraph.js.** State machine for debate orchestration — resumable, inspectable.
+
+Full architecture detail will be documented alongside Phase 4 (streaming debates).

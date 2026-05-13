@@ -1,0 +1,20 @@
+{
+  "name": "@agora/workers",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "inngest-cli@latest dev",
+    "build": "tsc",
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "inngest": "^3.28.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@agora/config": "workspace:*",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.3"
+  }
+}

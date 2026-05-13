@@ -1,0 +1,144 @@
+# UI Components
+
+All components live in `packages/ui/src/components/`. They use OKLCH-based design tokens and Tailwind CSS, and are exported from `@agora/ui`.
+
+---
+
+## Button
+
+Three variants: `primary`, `ghost`, `mono`. Two sizes: `sm`, `md`. Loading state via `loading` prop.
+
+```tsx
+import { Button } from "@agora/ui";
+
+<Button variant="primary">Start debate</Button>
+<Button variant="ghost">Cancel</Button>
+<Button variant="mono">View source</Button>
+<Button loading>Connecting...</Button>
+```
+
+---
+
+## Input
+
+Text and password variants. `mono` prop for API key inputs.
+
+```tsx
+import { Input } from "@agora/ui";
+
+<Input placeholder="Enter text..." />
+<Input variant="password" placeholder="sk-ant-..." mono />
+```
+
+---
+
+## Select
+
+Native select with OKLCH styling and chevron overlay.
+
+```tsx
+import { Select } from "@agora/ui";
+
+<Select
+  options={[
+    { value: "anthropic", label: "Anthropic" },
+    { value: "openai", label: "OpenAI" },
+  ]}
+  placeholder="Select a provider"
+/>
+```
+
+---
+
+## PhaseBar
+
+Fills left to right as `currentIndex / phases.length`. 400ms ease-out transition.
+
+```tsx
+import { PhaseBar } from "@agora/ui";
+
+<PhaseBar
+  phases={["Framing", "Opening", "Cross-Examination", "Rebuttal", "Closing", "Synthesis"]}
+  currentIndex={2}
+/>
+```
+
+---
+
+## PersonaLabel
+
+Mono uppercase with active/idle/upcoming states.
+
+```tsx
+import { PersonaLabel } from "@agora/ui";
+
+<PersonaLabel name="The Classical Liberal" state="active" />
+<PersonaLabel name="The Progressive Reformer" state="idle" />
+<PersonaLabel name="The Technocrat" state="upcoming" />
+```
+
+---
+
+## DebateMessage
+
+Full debate turn with streaming cursor support.
+
+```tsx
+import { DebateMessage } from "@agora/ui";
+
+<DebateMessage
+  personaName="The Classical Liberal"
+  phase="Opening"
+  content="Mandatory labeling regimes sound reasonable until you ask who decides what counts as political..."
+  isStreaming={false}
+/>
+```
+
+---
+
+## Resolution
+
+Serif headline with mono eyebrow.
+
+```tsx
+import { Resolution } from "@agora/ui";
+
+<Resolution text="Should AI-generated political content be labeled by law?" />
+```
+
+---
+
+## Card
+
+1px border, elevated background. `sm` / `md` / `lg` padding.
+
+```tsx
+import { Card } from "@agora/ui";
+
+<Card padding="md">Content here</Card>
+```
+
+---
+
+## Stepper
+
+Progress indicator for multi-step flows.
+
+```tsx
+import { Stepper } from "@agora/ui";
+
+<Stepper steps={["Welcome", "Provider", "Model"]} currentIndex={1} />
+```
+
+---
+
+## Separator, Skeleton, ThemeToggle
+
+```tsx
+import { Separator, Skeleton, ThemeToggle } from "@agora/ui";
+
+<Separator />                          // horizontal 1px line
+<Separator orientation="vertical" />   // vertical
+<Skeleton className="h-4 w-32" />      // shimmer placeholder
+<ThemeToggle />                        // dark/light switch, hydration-safe
+```

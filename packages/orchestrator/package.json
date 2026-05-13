@@ -1,0 +1,22 @@
+{
+  "name": "@agora/orchestrator",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@langchain/langgraph": "^0.2.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@agora/config": "workspace:*",
+    "@agora/types": "workspace:*",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.0"
+  }
+}

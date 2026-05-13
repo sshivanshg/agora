@@ -1,0 +1,27 @@
+{
+  "name": "@agora/api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "biome check .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@agora/config": "workspace:*",
+    "@agora/db": "workspace:^",
+    "@hono/node-server": "^2.0.2",
+    "@hono/zod-validator": "^0.8.0",
+    "better-auth": "^1.6.11",
+    "drizzle-orm": "^0.36.4",
+    "hono": "^4.12.18",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.19",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
