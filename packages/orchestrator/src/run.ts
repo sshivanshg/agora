@@ -1,8 +1,15 @@
-import { db, debatePersonas, debateTurns, debates, personas as personasTable } from "@agora/db";
+import {
+  db,
+  debatePersonas,
+  debateTurns,
+  debates,
+  eq,
+  instanceConfig,
+  personas as personasTable,
+} from "@agora/db";
 import type { Persona } from "@agora/personas";
 import { personaFrontmatterSchema } from "@agora/personas";
 import { createId } from "@paralleldrive/cuid2";
-import { eq } from "drizzle-orm";
 import matter from "gray-matter";
 import { speak } from "./agents/debater";
 import { checkTurn } from "./agents/factchecker";
@@ -29,6 +36,9 @@ const PHASE_SEQUENCE: DebatePhase[] = [
   "synthesis",
 ];
 
+const DEFAULT_PER_DEBATE_CEILING_USD = 0.5;
+const DEFAULT_PER_DAY_CEILING_USD = 5.0;
+
 function orderForPhase(phase: DebatePhase, openingOrder: Persona[]): Persona[] {
   switch (phase) {
     case "opening":
@@ -48,12 +58,38 @@ function orderForPhase(phase: DebatePhase, openingOrder: Persona[]): Persona[] {
   }
 }
 
+async function readNumericConfig(key: string, fallback: number): Promise<number> {
+  const [row] = await db.select().from(instanceConfig).where(eq(instanceConfig.key, key)).limit(1);
+  if (!row) return fallback;
+  const v = row.value as unknown;
+  if (typeof v === "number" && Number.isFinite(v)) return v;
+  if (typeof v === "string") {
+    const n = Number(v);
+    if (Number.isFinite(n)) return n;
+  }
+  return fallback;
+}
+
+export async function readCostCeilings(): Promise<{
+  perDebateUsd: number;
+  perDayUsd: number;
+}> {
+  const [perDebateUsd, perDayUsd] = await Promise.all([
+    readNumericConfig("cost_ceiling_per_debate_usd", DEFAULT_PER_DEBATE_CEILING_USD),
+    readNumericConfig("cost_ceiling_per_day_usd", DEFAULT_PER_DAY_CEILING_USD),
+  ]);
+  return { perDebateUsd, perDayUsd };
+}
+
 export async function* runDebate(input: RunDebateInput): AsyncGenerator<DebateStreamEvent, void> {
   const { debateId } = input;
 
   try {
     const [debate] = await db.select().from(debates).where(eq(debates.id, debateId)).limit(1);
     if (!debate) throw new Error(`Debate ${debateId} not found`);
+
+    const { perDebateUsd: ceilingPerDebate } = await readCostCeilings();
+    const softCeiling = ceilingPerDebate * 0.8;
 
     const dbPersonas = await db
       .select()
@@ -72,7 +108,7 @@ export async function* runDebate(input: RunDebateInput): AsyncGenerator<DebateSt
         slug: p.slug,
         name: p.name,
         worldviewTag: p.worldviewTag,
-        modelPreference: p.modelPreference ?? "claude-sonnet-4-5",
+        modelPreference: p.modelPreference ?? "claude-haiku-4-5",
         temperature: p.temperature,
         specContent: p.specContent,
         specHash: p.specHash,
@@ -101,6 +137,7 @@ export async function* runDebate(input: RunDebateInput): AsyncGenerator<DebateSt
 
     let turnOrder = 0;
     let seqNo = 0;
+    let truncatedForCost = false;
 
     const emit = async (event: DebateStreamEvent): Promise<DebateStreamEvent> => {
       seqNo += 1;
@@ -109,6 +146,21 @@ export async function* runDebate(input: RunDebateInput): AsyncGenerator<DebateSt
     };
 
     for (const phase of PHASE_SEQUENCE) {
+      // Hard ceiling: abort entirely
+      if (state.totalCostUsd >= ceilingPerDebate) {
+        await db
+          .update(debates)
+          .set({
+            status: "failed",
+            errorMessage: "cost_ceiling_exceeded",
+            totalCost: state.totalCostUsd,
+            wasCostTruncated: true,
+          })
+          .where(eq(debates.id, debateId));
+        yield await emit({ type: "error", message: "cost_ceiling_exceeded" });
+        return;
+      }
+
       state.phase = phase;
       yield await emit({ type: "phase_change", phase });
 
@@ -179,7 +231,7 @@ export async function* runDebate(input: RunDebateInput): AsyncGenerator<DebateSt
           phase: "synthesis",
         });
         let buf = "";
-        const gen = synthesize(state, turnId);
+        const gen = synthesize(state, turnId, { truncated: truncatedForCost });
         while (true) {
           const r = await gen.next();
           if (r.done) {
@@ -210,6 +262,17 @@ export async function* runDebate(input: RunDebateInput): AsyncGenerator<DebateSt
 
       const speakers = orderForPhase(phase, personasInDebate);
       for (const persona of speakers) {
+        // Soft ceiling: jump to synthesis after current accumulation
+        if (state.totalCostUsd >= softCeiling) {
+          truncatedForCost = true;
+          break;
+        }
+        // Hard ceiling check mid-phase
+        if (state.totalCostUsd >= ceilingPerDebate) {
+          truncatedForCost = true;
+          break;
+        }
+
         const turnId = createId();
         await db.insert(debateTurns).values({
           id: turnId,
@@ -267,6 +330,11 @@ export async function* runDebate(input: RunDebateInput): AsyncGenerator<DebateSt
           yield await emit({ type: "turn_chunk", turnId, delta: r.value });
         }
       }
+
+      // If we decided to truncate mid-phase, fast-forward through remaining
+      // debater phases — only the synthesis phase will still run, with the
+      // truncated flag set so the synthesizer is informed.
+      if (truncatedForCost) continue;
     }
 
     state.isComplete = true;
@@ -276,6 +344,7 @@ export async function* runDebate(input: RunDebateInput): AsyncGenerator<DebateSt
         status: "completed",
         completedAt: new Date(),
         totalCost: state.totalCostUsd,
+        wasCostTruncated: truncatedForCost,
       })
       .where(eq(debates.id, debateId));
     yield await emit({ type: "complete", totalCostUsd: state.totalCostUsd });

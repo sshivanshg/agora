@@ -22,3 +22,39 @@ export { Accordion } from "./components/Accordion";
 export { EmptyState } from "./components/EmptyState";
 export { Modal } from "./components/Modal";
 export { Sheet } from "./components/Sheet";
+
+// Theater
+export { Theater } from "./theater/Theater";
+export type { TheaterProps } from "./theater/Theater";
+export {
+  TheaterModeToggle,
+  THEATER_MODE_STORAGE_KEY,
+} from "./theater/TheaterModeToggle";
+export type { TheaterMode } from "./theater/TheaterModeToggle";
+export { TheaterStage } from "./theater/TheaterStage";
+export { TheaterSpeech } from "./theater/TheaterSpeech";
+export { TheaterHud } from "./theater/TheaterHud";
+export { TheaterMobile } from "./theater/TheaterMobile";
+export {
+  useTheaterState,
+  PHASE_ORDER,
+  PHASE_LABELS,
+  API_PERSONA_SLUGS,
+  PERSONA_DISPLAY_NAME,
+} from "./theater/useTheaterState";
+export type {
+  Phase,
+  ApiPersonaSlug,
+  RecordedTurn,
+  TheaterState,
+  TurnRole,
+  DebateStatus,
+  UseTheaterStateOptions,
+  UseTheaterStateResult,
+} from "./theater/useTheaterState";
+export type {
+  PersonaState,
+  OrchestratorState,
+  PersonaSlug,
+  CardinalDirection,
+} from "./theater/types";

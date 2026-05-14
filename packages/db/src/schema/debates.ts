@@ -1,5 +1,6 @@
 import { createId } from "@paralleldrive/cuid2";
 import {
+  boolean,
   customType,
   integer,
   jsonb,
@@ -37,6 +38,7 @@ export const debates = pgTable("debates", {
   embedding: vector("embedding", 1536),
   createdById: text("created_by_id").references(() => users.id, { onDelete: "set null" }),
   totalCost: real("total_cost").default(0).notNull(),
+  wasCostTruncated: boolean("was_cost_truncated").default(false).notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   completedAt: timestamp("completed_at", { withTimezone: true }),

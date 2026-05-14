@@ -10,7 +10,7 @@ interface PhaseBarProps {
 export function PhaseBar({ phases, currentIndex, className }: PhaseBarProps) {
   const progress = phases.length > 0 ? currentIndex / phases.length : 0;
   return (
-    <div className={cn("relative h-px w-full bg-[oklch(0.24_0_0)]", className)}>
+    <div className={cn("relative h-px w-full bg-[var(--color-border)]", className)}>
       {phases.map((phase, i) => (
         <div
           key={phase}
@@ -19,7 +19,7 @@ export function PhaseBar({ phases, currentIndex, className }: PhaseBarProps) {
         />
       ))}
       <div
-        className="absolute left-0 top-0 h-full bg-[oklch(0.78_0.13_75)] transition-all duration-[400ms] ease-out"
+        className="absolute left-0 top-0 h-full bg-[var(--color-accent)] transition-all duration-[400ms] ease-out"
         style={{ width: `${progress * 100}%` }}
       />
     </div>

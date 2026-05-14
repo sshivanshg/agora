@@ -1,15 +1,6 @@
 "use client";
 import { ThemeToggle } from "@agora/ui";
-import {
-  FlaskConical,
-  Info,
-  LayoutDashboard,
-  Menu,
-  MessageSquare,
-  Settings,
-  Users,
-  X,
-} from "lucide-react";
+import { Archive, FlaskConical, Info, Menu, Newspaper, Settings, Users, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -19,10 +10,10 @@ function cn(...classes: (string | boolean | undefined | null)[]) {
 }
 
 const NAV_ITEMS = [
-  { href: "/home", label: "Today", icon: LayoutDashboard },
-  { href: "/debates", label: "Debates", icon: MessageSquare },
+  { href: "/today", label: "Today", icon: Newspaper },
   { href: "/workshop", label: "Workshop", icon: FlaskConical },
   { href: "/personas", label: "Personas", icon: Users },
+  { href: "/debates", label: "Archive", icon: Archive },
   { href: "/settings", label: "Settings", icon: Settings },
   { href: "/about", label: "About", icon: Info },
 ];
@@ -40,7 +31,7 @@ function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => 
         {!collapsed && (
           <Link
             href="/"
-            className="font-mono text-sm lowercase tracking-[0.08em] text-[var(--color-fg)]"
+            className="font-mono text-sm lowercase tracking-[0.08em] text-[var(--color-fg)] transition-colors hover:text-[var(--color-muted)]"
           >
             agora
           </Link>
@@ -58,7 +49,7 @@ function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => 
       </div>
       <nav className="flex flex-col gap-1 p-2 flex-1">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-          const active = pathname === href || (href !== "/home" && pathname.startsWith(href));
+          const active = pathname === href || pathname.startsWith(`${href}/`);
           return (
             <Link
               key={href}
@@ -119,7 +110,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
             <nav className="flex flex-col gap-1 p-2">
               {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-                const active = pathname === href || (href !== "/home" && pathname.startsWith(href));
+                const active = pathname === href || pathname.startsWith(`${href}/`);
                 return (
                   <Link
                     key={href}
@@ -145,13 +136,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Main area */}
       <div className="flex flex-1 flex-col overflow-hidden">
         <header className="flex h-14 shrink-0 items-center justify-between border-b border-[var(--color-border)] px-4">
-          <button
-            type="button"
-            onClick={() => setMobileOpen(true)}
-            className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-fg)] md:hidden"
-          >
-            <Menu className="h-4 w-4" />
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setMobileOpen(true)}
+              className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-fg)] md:hidden"
+            >
+              <Menu className="h-4 w-4" />
+            </button>
+            <Link
+              href="/"
+              className="font-mono text-sm lowercase tracking-[0.08em] text-[var(--color-fg)] transition-colors hover:text-[var(--color-muted)] md:hidden"
+            >
+              agora
+            </Link>
+          </div>
           <div className="flex-1" />
           <ThemeToggle />
         </header>

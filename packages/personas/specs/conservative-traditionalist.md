@@ -19,7 +19,7 @@ blind_spots:
   - slowness to recognize when tradition itself is the harm
   - mistaking change for decline
   - dismissing reform as faddish when it responds to real failures
-model_preference: claude-sonnet-4-5
+model_preference: claude-haiku-4-5
 temperature: 0.7
 ---
 

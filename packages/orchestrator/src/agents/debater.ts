@@ -29,6 +29,15 @@ const PHASE_INSTRUCTIONS: Record<DebatePhase, { range: string; rules: string }> 
   synthesis: { range: "", rules: "" },
 };
 
+export const PHASE_MAX_TOKENS: Record<DebatePhase, number> = {
+  framing: 120,
+  opening: 380,
+  cross_examination: 280,
+  rebuttal: 320,
+  closing: 220,
+  synthesis: 450,
+};
+
 function providerForModel(model: string): "anthropic" | "openai" | "google" | "groq" | "ollama" {
   if (model.startsWith("claude")) return "anthropic";
   if (model.startsWith("gpt")) return "openai";
@@ -46,9 +55,13 @@ export interface SpeakInput {
   turnId: string;
 }
 
-export async function* speak(
-  input: SpeakInput,
-): AsyncGenerator<string, { tokenCount: number; costUsd: number }> {
+export interface SpeakResult {
+  tokenCount: number;
+  costUsd: number;
+  truncated: boolean;
+}
+
+export async function* speak(input: SpeakInput): AsyncGenerator<string, SpeakResult> {
   const { persona, phase, resolution, framingNotes, transcript, turnId } = input;
   const inst = PHASE_INSTRUCTIONS[phase];
   const modelId = {
@@ -77,6 +90,7 @@ Do not preface with your name. Do not use stage directions. Write only the conte
     system: systemPrompt,
     prompt: "Begin your turn.",
     temperature: persona.temperature,
+    maxTokens: PHASE_MAX_TOKENS[phase],
   });
 
   for await (const delta of result.textStream) {
@@ -84,9 +98,18 @@ Do not preface with your name. Do not use stage directions. Write only the conte
   }
 
   const usage = await result.usage;
+  const finishReason = await result.finishReason;
+  const truncated = finishReason === "length";
+  if (truncated) {
+    yield "…";
+  }
   const costUsd = await trackTurnCost(turnId, modelId, {
     promptTokens: usage.promptTokens,
     completionTokens: usage.completionTokens,
   });
-  return { tokenCount: usage.promptTokens + usage.completionTokens, costUsd };
+  return {
+    tokenCount: usage.promptTokens + usage.completionTokens,
+    costUsd,
+    truncated,
+  };
 }

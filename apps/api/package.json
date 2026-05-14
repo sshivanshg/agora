@@ -12,6 +12,7 @@
   "dependencies": {
     "@agora/config": "workspace:*",
     "@agora/db": "workspace:^",
+    "@agora/news": "workspace:*",
     "@agora/personas": "workspace:*",
     "@agora/orchestrator": "workspace:*",
     "@hono/node-server": "^2.0.2",
@@ -19,10 +20,12 @@
     "better-auth": "^1.6.11",
     "drizzle-orm": "^0.36.4",
     "hono": "^4.12.18",
+    "node-cron": "^3.0.3",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/node": "^22.19.19",
+    "@types/node-cron": "^3.0.11",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }

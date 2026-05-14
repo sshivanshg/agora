@@ -18,7 +18,7 @@ blind_spots:
   - private power asymmetries that the rule of law alone does not fix
   - sounding abstract in the face of immediate suffering
   - underweighting cases where state action genuinely solved a coordination problem markets could not
-model_preference: claude-sonnet-4-5
+model_preference: claude-haiku-4-5
 temperature: 0.7
 ---
 

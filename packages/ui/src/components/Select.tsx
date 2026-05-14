@@ -13,7 +13,7 @@ export function Select({ className, options, placeholder, ...props }: SelectProp
     <div className="relative">
       <select
         className={cn(
-          "h-10 w-full appearance-none rounded-md border border-[oklch(0.24_0_0)] bg-[oklch(0.18_0_0)] px-3 pr-8 text-sm text-[oklch(0.96_0_0)] transition-all duration-150 ease-out focus:outline-none focus:border-[oklch(0.78_0.13_75/50%)] disabled:opacity-50",
+          "h-10 w-full appearance-none rounded-md border border-[var(--color-border)] bg-[var(--color-bg-elev)] px-3 pr-8 text-sm text-[var(--color-fg)] transition-all duration-150 ease-out focus:outline-none focus:border-[var(--color-accent)] disabled:opacity-50",
           className,
         )}
         {...props}
@@ -29,7 +29,7 @@ export function Select({ className, options, placeholder, ...props }: SelectProp
           </option>
         ))}
       </select>
-      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[oklch(0.55_0_0)]" />
+      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--color-muted)]" />
     </div>
   );
 }

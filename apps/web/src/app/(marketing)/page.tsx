@@ -1,6 +1,8 @@
 import { Accordion, CodeBlock, Terminal } from "@agora/ui";
 import Link from "next/link";
 
+export const metadata = { title: { absolute: "Agora — Watch every side argue" } };
+
 const FAQ_ITEMS = [
   {
     question: "Is Agora really free and open source?",
@@ -130,16 +132,16 @@ export default function MarketingPage() {
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/home"
-              className="rounded-md bg-[var(--color-accent)] px-6 py-3 font-mono text-sm lowercase tracking-[0.04em] text-[oklch(0.14_0_0)] transition-opacity hover:opacity-90"
+              href="/today"
+              className="rounded-md bg-[var(--color-accent)] px-6 py-3 font-mono text-sm lowercase tracking-[0.04em] text-[var(--color-bg)] transition-opacity hover:opacity-90"
             >
-              open app →
+              Open Agora →
             </Link>
             <Link
               href="https://github.com/your-org/agora"
               className="rounded-md border border-[var(--color-border)] px-6 py-3 font-mono text-sm lowercase tracking-[0.04em] text-[var(--color-fg)] transition-colors hover:border-[var(--color-muted)]"
             >
-              view on github
+              Star on GitHub
             </Link>
           </div>
         </div>
@@ -336,16 +338,16 @@ export default function MarketingPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/home"
-              className="rounded-md bg-[var(--color-accent)] px-8 py-3.5 font-mono text-sm lowercase tracking-[0.04em] text-[oklch(0.14_0_0)] transition-opacity hover:opacity-90"
+              href="/today"
+              className="rounded-md bg-[var(--color-accent)] px-8 py-3.5 font-mono text-sm lowercase tracking-[0.04em] text-[var(--color-bg)] transition-opacity hover:opacity-90"
             >
-              open app →
+              Open Agora →
             </Link>
             <Link
               href="https://github.com/your-org/agora"
               className="rounded-md border border-[var(--color-border)] px-8 py-3.5 font-mono text-sm lowercase tracking-[0.04em] text-[var(--color-fg)] transition-colors hover:border-[var(--color-muted)]"
             >
-              github ↗
+              Star on GitHub
             </Link>
           </div>
         </div>

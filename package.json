@@ -19,7 +19,12 @@
     "prepare": "husky",
     "gen:encryption-key": "pnpm --filter=@agora/config gen:encryption-key",
     "personas:sync": "pnpm --filter @agora/personas sync",
-    "debate": "pnpm --filter @agora/cli debate"
+    "debate": "pnpm --filter @agora/cli debate",
+    "news:fetch": "pnpm --filter @agora/news fetch",
+    "news:embed": "pnpm --filter @agora/news embed",
+    "news:cluster": "pnpm --filter @agora/news cluster",
+    "news:classify": "pnpm --filter @agora/news classify",
+    "news:pipeline": "pnpm --filter @agora/news pipeline"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json}": ["biome check --write --no-errors-on-unmatched"]

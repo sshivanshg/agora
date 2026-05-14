@@ -14,6 +14,12 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
             <Link
+              href="/personas"
+              className="text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-fg)]"
+            >
+              Personas
+            </Link>
+            <Link
               href="/about"
               className="text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-fg)]"
             >
@@ -27,10 +33,10 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
             </Link>
             <ThemeToggle />
             <Link
-              href="/home"
-              className="rounded-md bg-[var(--color-accent)] px-4 py-1.5 font-mono text-xs lowercase tracking-[0.04em] text-[oklch(0.14_0_0)] transition-opacity hover:opacity-90"
+              href="/today"
+              className="rounded-md bg-[var(--color-accent)] px-4 py-1.5 font-mono text-xs lowercase tracking-[0.04em] text-[var(--color-bg)] transition-opacity hover:opacity-90"
             >
-              open app →
+              Open Agora →
             </Link>
           </nav>
           <div className="flex items-center gap-3 md:hidden">

@@ -10,10 +10,10 @@ interface ResolutionProps {
 export function Resolution({ text, eyebrow = "RESOLUTION", className }: ResolutionProps) {
   return (
     <header className={cn("space-y-3", className)}>
-      <p className="font-mono text-xs uppercase tracking-[0.08em] text-[oklch(0.55_0_0)]">
+      <p className="font-mono text-xs uppercase tracking-[0.08em] text-[var(--color-muted)]">
         {eyebrow}
       </p>
-      <h1 className="font-serif text-3xl leading-tight text-[oklch(0.96_0_0)] text-balance md:text-4xl">
+      <h1 className="font-serif text-3xl leading-tight text-[var(--color-fg)] text-balance md:text-4xl">
         {text}
       </h1>
     </header>

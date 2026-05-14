@@ -19,7 +19,7 @@ blind_spots:
   - sounding politically naive when the disagreement is actually about values
   - treating one's priors as obvious when they shape which evidence one finds persuasive
   - confusing "the evidence supports X" with "we should do X"
-model_preference: claude-sonnet-4-5
+model_preference: claude-haiku-4-5
 temperature: 0.6
 ---
 

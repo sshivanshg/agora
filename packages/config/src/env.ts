@@ -7,11 +7,11 @@ const bool = z
 const schema = z.object({
   DATABASE_URL: z.string().url(),
   INSTANCE_ENCRYPTION_KEY: z.string().min(1),
-  SINGLE_USER_MODE: bool.default("true"),
-  ENABLE_AUTH: bool.default("false"),
+  SINGLE_USER_MODE: bool.default(true),
+  ENABLE_AUTH: bool.default(false),
   NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
   NEXT_PUBLIC_API_URL: z.string().url().default("http://localhost:4000"),
-  TELEMETRY_ENABLED: bool.default("false"),
+  TELEMETRY_ENABLED: bool.default(false),
 });
 
 const parsed = schema.safeParse(process.env);

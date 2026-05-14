@@ -12,9 +12,9 @@ export function PersonaLabel({ name, state, className }: PersonaLabelProps) {
     <span
       className={cn(
         "font-mono text-xs uppercase tracking-[0.08em] transition-opacity duration-200 ease-out",
-        state === "active" && "text-[oklch(0.96_0_0)]",
-        state === "idle" && "text-[oklch(0.55_0_0)]",
-        state === "upcoming" && "text-[oklch(0.55_0_0)] opacity-50",
+        state === "active" && "text-[var(--color-fg)]",
+        state === "idle" && "text-[var(--color-muted)]",
+        state === "upcoming" && "text-[var(--color-muted)] opacity-50",
         className,
       )}
     >

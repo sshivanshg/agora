@@ -23,18 +23,18 @@ export function Stepper({ steps, currentIndex, className }: StepperProps) {
                   i === 0
                     ? "opacity-0"
                     : isCompleted
-                      ? "bg-[oklch(0.78_0.13_75)]"
-                      : "bg-[oklch(0.24_0_0)]",
+                      ? "bg-[var(--color-accent)]"
+                      : "bg-[var(--color-border)]",
                 )}
               />
               {/* dot */}
               <div
                 className={cn(
                   "h-2 w-2 rounded-full transition-all duration-150 ease-out",
-                  isCompleted && "bg-[oklch(0.78_0.13_75)]",
+                  isCompleted && "bg-[var(--color-accent)]",
                   isCurrent &&
-                    "ring-2 ring-[oklch(0.78_0.13_75)] ring-offset-1 ring-offset-[oklch(0.14_0_0)] bg-[oklch(0.78_0.13_75)]",
-                  !isCompleted && !isCurrent && "bg-[oklch(0.24_0_0)]",
+                    "ring-2 ring-[var(--color-accent)] ring-offset-1 ring-offset-[var(--color-bg)] bg-[var(--color-accent)]",
+                  !isCompleted && !isCurrent && "bg-[var(--color-border)]",
                 )}
               />
               {/* line after */}
@@ -44,8 +44,8 @@ export function Stepper({ steps, currentIndex, className }: StepperProps) {
                   i === steps.length - 1
                     ? "opacity-0"
                     : isCompleted
-                      ? "bg-[oklch(0.78_0.13_75)]"
-                      : "bg-[oklch(0.24_0_0)]",
+                      ? "bg-[var(--color-accent)]"
+                      : "bg-[var(--color-border)]",
                 )}
               />
             </div>
@@ -53,10 +53,10 @@ export function Stepper({ steps, currentIndex, className }: StepperProps) {
               className={cn(
                 "mt-2 font-mono text-[10px] uppercase tracking-[0.06em] text-center",
                 isCurrent
-                  ? "text-[oklch(0.96_0_0)]"
+                  ? "text-[var(--color-fg)]"
                   : isCompleted
-                    ? "text-[oklch(0.78_0.13_75)]"
-                    : "text-[oklch(0.55_0_0)]",
+                    ? "text-[var(--color-accent)]"
+                    : "text-[var(--color-muted)]",
               )}
             >
               {step}

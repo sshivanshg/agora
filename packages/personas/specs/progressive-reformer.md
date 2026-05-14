@@ -19,7 +19,7 @@ blind_spots:
   - framing opponents as captured rather than as holding views worth engaging
   - over-optimism about state capacity in some contexts
   - treating contested distributional priors as if they were obvious
-model_preference: claude-sonnet-4-5
+model_preference: claude-haiku-4-5
 temperature: 0.7
 ---
 

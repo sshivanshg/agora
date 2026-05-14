@@ -9,11 +9,13 @@ import {
   eq,
   factChecks,
   gt,
+  gte,
   inArray,
   personas as personasTable,
+  sql,
   streamEvents,
 } from "@agora/db";
-import { runDebate } from "@agora/orchestrator";
+import { readCostCeilings, runDebate } from "@agora/orchestrator";
 import type { DebateStreamEvent } from "@agora/orchestrator";
 import { Hono } from "hono";
 import { streamSSE } from "hono/streaming";
@@ -43,6 +45,20 @@ const dryRunBody = createDebateBody.pick({
 
 export const debatesRouter = new Hono();
 
+/** Per-debate active SSE viewer count. */
+const watchingCounts = new Map<string, number>();
+function incWatching(id: string): number {
+  const n = (watchingCounts.get(id) ?? 0) + 1;
+  watchingCounts.set(id, n);
+  return n;
+}
+function decWatching(id: string): number {
+  const n = Math.max(0, (watchingCounts.get(id) ?? 0) - 1);
+  if (n === 0) watchingCounts.delete(id);
+  else watchingCounts.set(id, n);
+  return n;
+}
+
 // POST /debates  -> creates debate, kicks off run in background
 debatesRouter.post("/", async (c) => {
   const body = await c.req.json().catch(() => ({}));
@@ -51,6 +67,26 @@ debatesRouter.post("/", async (c) => {
     return c.json({ error: "validation_failed", details: parsed.error.flatten() }, 400);
   }
   const { resolution, framingNotes, personaSlugs, format, country } = parsed.data;
+
+  // Per-day cost ceiling check
+  const { perDayUsd: ceilingPerDay } = await readCostCeilings();
+  const todayStart = new Date();
+  todayStart.setUTCHours(0, 0, 0, 0);
+  const todaySpend = await db
+    .select({ total: sql<number>`coalesce(sum(${debates.totalCost}), 0)` })
+    .from(debates)
+    .where(gte(debates.createdAt, todayStart));
+  const spentToday = Number(todaySpend[0]?.total ?? 0);
+  if (spentToday >= ceilingPerDay) {
+    return c.json(
+      {
+        error: "daily_cost_ceiling_exceeded",
+        spent: spentToday,
+        ceiling: ceilingPerDay,
+      },
+      429,
+    );
+  }
 
   const matched = await db
     .select()
@@ -168,6 +204,12 @@ debatesRouter.get("/:id", async (c) => {
   return c.json({ debate, turns, personas: personasInDebate, factChecks: checks });
 });
 
+// GET /debates/:id/watching -> { count }
+debatesRouter.get("/:id/watching", (c) => {
+  const id = c.req.param("id");
+  return c.json({ count: watchingCounts.get(id) ?? 0 });
+});
+
 // GET /debates/:id/stream -> SSE
 debatesRouter.get("/:id/stream", (c) => {
   const id = c.req.param("id");
@@ -182,6 +224,18 @@ debatesRouter.get("/:id/stream", (c) => {
         data: JSON.stringify({ type: "error", message: "not_found" }),
       });
       return;
+    }
+
+    incWatching(id);
+    let watchingDecremented = false;
+    const releaseWatching = () => {
+      if (watchingDecremented) return;
+      watchingDecremented = true;
+      decWatching(id);
+    };
+    const abortSignal = c.req.raw.signal;
+    if (abortSignal) {
+      abortSignal.addEventListener("abort", releaseWatching, { once: true });
     }
 
     let heartbeat: ReturnType<typeof setInterval> | null = null;

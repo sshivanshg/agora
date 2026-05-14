@@ -10,7 +10,7 @@ export function Card({ className, padding = "md", children, ...props }: CardProp
   return (
     <div
       className={cn(
-        "rounded-md border border-[oklch(0.24_0_0)] bg-[oklch(0.18_0_0)] transition-colors duration-150 ease-out hover:border-[oklch(0.30_0_0)]",
+        "rounded-md border border-[var(--color-border)] bg-[var(--color-bg-elev)] transition-colors duration-150 ease-out hover:border-[var(--color-muted)]",
         padding === "sm" && "p-4",
         padding === "md" && "p-6",
         padding === "lg" && "p-8",

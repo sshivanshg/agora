@@ -10,7 +10,7 @@ export function Separator({ orientation = "horizontal", className }: SeparatorPr
   return (
     <div
       className={cn(
-        "bg-[oklch(0.24_0_0)]",
+        "bg-[var(--color-border)]",
         orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
         className,
       )}

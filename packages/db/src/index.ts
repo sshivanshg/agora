@@ -5,6 +5,7 @@ export { instanceConfig, providerKeys } from "./schema/instance";
 export { personas } from "./schema/personas";
 export { debates, debatePersonas, debateTurns, factChecks } from "./schema/debates";
 export { streamEvents } from "./schema/stream-events";
+export { articles, clusters, clusterArticles } from "./schema/news";
 export type {
   User,
   NewUser,
@@ -33,4 +34,27 @@ export type {
   NewFactCheck,
 } from "./schema/debates";
 export type { StreamEvent, NewStreamEvent } from "./schema/stream-events";
-export { and, asc, desc, eq, gt, inArray } from "drizzle-orm";
+export type {
+  Article,
+  NewArticle,
+  Cluster,
+  NewCluster,
+  ClusterArticle,
+  NewClusterArticle,
+} from "./schema/news";
+export {
+  and,
+  asc,
+  cosineDistance,
+  desc,
+  eq,
+  gt,
+  gte,
+  inArray,
+  isNotNull,
+  isNull,
+  lte,
+  notInArray,
+  or,
+  sql,
+} from "drizzle-orm";
